@@ -8,9 +8,9 @@ class Scraper
    html = open('http://www.divereport.com/site-directory/')
    doc = Nokogiri::HTML(open(html))
 
-   url = doc.css("ul.sitemaplist li a").map{|url| url.attr("href")}
-   name = doc.css("ul.sitemaplist li a").map{|name| name.text}
-   binding.pry
+   urls_array = doc.css("ul.sitemaplist li a")[0..30].map{|url| url.attr("href")}
+   names_array = doc.css("ul.sitemaplist li a")[0..30].map{|name| name.text}
+
    Animal.new(name, url)
   end
 end
