@@ -1,6 +1,10 @@
-require "DiveReport/version"
+require 'pry'
+require 'nokogiri'
+require 'open-uri'
 
-module DiveReport
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require "DiveReport/version"
+require "DiveReport/CLI"
+require "DiveReport/animal"
+require "DiveReport/country"
+require "DiveReport/region"
+require "DiveReport/scraper"

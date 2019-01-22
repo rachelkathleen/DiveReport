@@ -1,0 +1,2 @@
+class DiveReport::CLI
+end
