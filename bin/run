@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/enviornment'
+Scraper.scrape_directory_animals

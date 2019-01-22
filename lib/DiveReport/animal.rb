@@ -1,4 +1,6 @@
-class DiveReport::Animal
+require 'pry'
+
+class Animal
   attr_accessor :name, :url, :img_link, :locations
 
   @@all = []
@@ -10,7 +12,6 @@ class DiveReport::Animal
   end
 
   def self.all
-        @@all
+      @@all
   end
-
 end

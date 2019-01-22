@@ -2,9 +2,9 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 
-require "DiveReport/version"
-require "DiveReport/CLI"
-require "DiveReport/animal"
-require "DiveReport/country"
-require "DiveReport/region"
-require "DiveReport/scraper"
+require_relative "DiveReport/version"
+require_relative "DiveReport/cli"
+require_relative "DiveReport/animal"
+require_relative "DiveReport/country"
+require_relative "DiveReport/region"
+require_relative "DiveReport/scraper"
