@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/enviornment'
+require_relative '../lib/environment'
 Scraper.scrape_directory_animals
+Animal.print_names
