@@ -1,26 +1,28 @@
 class CLI
-  def welcome
+
+  def run
     puts "Welcome to DiveReport! Use this gem to find dive locations that are of interest to you."
-    puts "Would you like to find dive locations based on marine life, region or country?"
-    puts "Enter 'animals', 'regions' or 'countries'."
-    puts "To quit, type 'exit'."
+    Scraper.scrape_directory site
+    puts "\n Would you like to find dive locations based on marine life, region or country?"
+    puts "\nEnter 'animals', 'regions' or 'countries'."
+    puts "\nTo quit, type 'exit'."
+    first_input
   end
 
   def first_input
-    input = ""
-
-    while input != "exit"
     input = gets.strip
 
-    case input
-    when "animals"
+    if  input == "animals"
         print_animal_names
-      when "regions"
+    elsif input == "regions"
         print_regions
-      when "countries"
+    elsif input == "countries"
         print_countries
-      when "exit"
+    elsif input == "exit"
         goodbye
+    else
+      invalid
+      first_input
       end
     end
   end
@@ -33,7 +35,7 @@ class CLI
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
     end
-    show_info(animal)
+    Scraper.scrape_animal_details
    end
 
    def print_regions
