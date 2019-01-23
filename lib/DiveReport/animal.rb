@@ -22,7 +22,7 @@ class Animal
 
    def show_info(animal)
      puts "#{animal.name}"
-     puts "#{animal.img_link}"
+     puts "#{animal.description}"
      puts "#{animal.locations}"
    end
 end

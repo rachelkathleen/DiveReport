@@ -1,5 +1,5 @@
 class Country
-  attr_accessor :name, :url, :description, :dive_locations
+  attr_accessor :name, :url, :dive_locations
 
   @@all = []
 

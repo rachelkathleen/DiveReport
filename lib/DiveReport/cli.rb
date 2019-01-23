@@ -34,7 +34,7 @@ class CLI
       animal = Animal.all[input - 1]
     end
     show_info(animal)
-  end
+   end
 
    def print_regions
       Region.all.each.with_index(1) {|region, i| puts "#{i}. #{region.name}"}
