@@ -19,4 +19,10 @@ class Animal
   def self.print_names
      self.all.each.with_index(1) {|animal, i| puts "#{i}. #{animal.name}"}
    end
+
+   def show_info(animal)
+     puts "#{animal.name}"
+     puts "#{animal.img_link}"
+     puts "#{animal.locations}"
+   end
 end
