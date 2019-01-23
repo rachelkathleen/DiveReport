@@ -2,8 +2,8 @@ class CLI
 
   def run
     puts "Welcome to DiveReport! Use this gem to find dive locations that are of interest to you."
-    Scraper.scrape_directory site
-    puts "\n Would you like to find dive locations based on marine life, region or country?"
+    Scraper.scrape_directory_site
+    puts "\nWould you like to find dive locations based on marine life, region or country?"
     puts "\nEnter 'animals', 'regions' or 'countries'."
     puts "\nTo quit, type 'exit'."
     first_input
@@ -23,7 +23,6 @@ class CLI
     else
       invalid
       first_input
-      end
     end
   end
 
@@ -51,7 +50,7 @@ class CLI
      puts "\n Please enter the number of the country you want to see dive locations for."
      input = gets.strip.to_i
      if (1..Country.all.length).include?(input)
-       Country = Country.all[input - 1]
+       country = Country.all[input - 1]
      end
   end
 
