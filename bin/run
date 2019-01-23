@@ -3,3 +3,5 @@
 require_relative '../lib/environment'
 Scraper.scrape_directory_site
 Animal.print_names
+Country.print_names
+Region.print_names
