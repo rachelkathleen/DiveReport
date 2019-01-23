@@ -33,6 +33,7 @@ class Scraper
        animal.locations = []
        animal.locations << DiveLocation.url(divelocation_url)
      end
+     binding.pry
   end
 
   #doc.css("div.searchResults ul li a.searchResultHeader").attr("href").value is the CSS selector for the url of the dive location.
