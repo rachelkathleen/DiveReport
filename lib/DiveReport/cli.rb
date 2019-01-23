@@ -28,25 +28,38 @@ class CLI
   end
 
   def print_animal_names
-    input = ""
-    puts "Please enter the number of the animal you want to see more about."
     Animal.print_names
+    puts "\n Please enter the number of the animal you want to see more about."
     input = gets.strip.to_i
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
     end
-    Scraper.scrape_animal_details
+    Scraper.scrape_animal_details(animal)
    end
 
    def print_regions
-      Region.all.each.with_index(1) {|region, i| puts "#{i}. #{region.name}"}
+      Region.print_names
+      puts "\n Please enter the number of the region you want to see dive locations for."
+      input = gets.strip.to_i
+      if (1..Region.all.length).include?(input)
+        region = Region.all[input - 1]
+      end
   end
 
   def print_countries
-     Country.all.each.with_index(1) {|country, i| puts "#{i}. #{country.name}"}
+     Country.print_names
+     puts "\n Please enter the number of the country you want to see dive locations for."
+     input = gets.strip.to_i
+     if (1..Country.all.length).include?(input)
+       Country = Country.all[input - 1]
+     end
   end
 
   def goodbye
     puts "Thank you for using DiveReport!"
+  end
+
+  def invalid
+    puts "Sorry - that wasn't a valid entry."
   end
 end
