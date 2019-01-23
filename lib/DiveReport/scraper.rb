@@ -33,6 +33,7 @@ class Scraper
       animal.locations = []
       animal.locations << DiveLocation.find_by_url(divelocation_url)
      end
+  
   end
 
  #  def self.find_by_url(url)

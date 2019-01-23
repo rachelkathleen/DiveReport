@@ -34,6 +34,7 @@ class CLI
       animal = Animal.all[input - 1]
     end
     Scraper.scrape_animal_details(animal)
+    show_animal_details(animal)
    end
 
    def print_regions
@@ -61,4 +62,10 @@ class CLI
   def invalid
     puts "Sorry - that wasn't a valid entry."
   end
+
+  def show_animal_details(animal)
+    puts "#{animal.name}:"
+    puts "\n Description: #{animal.description}"
+  end
+
 end
