@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/environment'
-Scraper.scrape_directory_animals
+Scraper.scrape_directory_site
 Animal.print_names
