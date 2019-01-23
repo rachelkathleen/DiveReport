@@ -28,18 +28,18 @@ class CLI
 
   def print_animal_names
     Animal.print_names
-    puts "\n Please enter the number of the animal you want to see more about."
+    puts "\nPlease enter the number of the animal you want to see more about."
     input = gets.strip.to_i
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
     end
     Scraper.scrape_animal_details(animal)
-    show_animal_details(animal)
+    
    end
 
    def print_regions
       Region.print_names
-      puts "\n Please enter the number of the region you want to see dive locations for."
+      puts "\nPlease enter the number of the region you want to see dive locations for."
       input = gets.strip.to_i
       if (1..Region.all.length).include?(input)
         region = Region.all[input - 1]
@@ -48,7 +48,7 @@ class CLI
 
   def print_countries
      Country.print_names
-     puts "\n Please enter the number of the country you want to see dive locations for."
+     puts "\nPlease enter the number of the country you want to see dive locations for."
      input = gets.strip.to_i
      if (1..Country.all.length).include?(input)
        country = Country.all[input - 1]
@@ -65,7 +65,9 @@ class CLI
 
   def show_animal_details(animal)
     puts "#{animal.name}:"
-    puts "\n Description: #{animal.description}"
+    puts "\nDescription: #{animal.description}"
+    puts "\nHere are dive locations where #{animal.name} can be viewd at:"
+    animal.locations
   end
-
+#.each.with_index(1) {|location, i| "#{i}." "location"}
 end
