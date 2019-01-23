@@ -1,7 +1,7 @@
 require 'pry'
 
 class Animal
-  attr_accessor :name, :url, :img_link, :locations
+  attr_accessor :name, :url, :description, :locations
 
   @@all = []
 
