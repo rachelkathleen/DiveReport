@@ -28,12 +28,12 @@ class Scraper
     def self.scrape_animal_details(animal)
       html = open(DIVE_REPORT_URL + animal.url)
       doc = Nokogiri::HTML(html)
-      animal.description = doc.css(".animale p")[0..1].text
+      animal.description = doc.css(".animale p")[0].text
       divelocation_url = doc.css("div.searchResults ul li a.searchResultHeader").attr("href").value
       animal.locations = []
       animal.locations << DiveLocation.find_by_url(divelocation_url)
      end
-  
+
   end
 
  #  def self.find_by_url(url)
