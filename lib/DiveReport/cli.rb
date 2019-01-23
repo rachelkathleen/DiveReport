@@ -1,4 +1,4 @@
-class DiveReport::CLI
+class CLI
   def welcome
     puts "Welcome to DiveReport! Use this gem to find dive locations that are of interest to you."
     puts "Would you like to find dive locations based on marine life, region or country?"
