@@ -22,10 +22,12 @@ class Scraper
       name = nodeset.text
       if i < 31
         Animal.new(name, url)
-      # elsif objects.index < 44
-      #   Region.new(name, url)
-      # else
-      #   Country.new(name, url)
+      elsif i < 44
+        Region.new(name, url)
+      elsif i < 126
+        Country.new(name, url)
+      else
+        DiveLocations.new(name, url)
       end
     end
    end
@@ -43,3 +45,4 @@ class Scraper
 # animals = doc.css("ul.sitemaplist li a")[0..30]
 # regions = doc.css("ul.sitemaplist li a")[31..43]
 # countries = page.css("ul.sitemaplist li a")[44..125].text
+# dive location = selector = doc.css("ul.sitemaplist li a")[126..440].text
