@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/environment'
-Scraper.scrape_directory_site
-Scraper.scrape_animal_details(animal)
-# Animal.print_names
-# Country.print_names
-# Region.print_names
+
+CLI.new.run
