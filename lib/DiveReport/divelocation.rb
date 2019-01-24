@@ -1,6 +1,6 @@
 require 'pry'
 class DiveLocation
-  attr_accessor :name, :url, :country, :description, :visibility, :depth_range
+  attr_accessor :name, :url, :country, :description, :visibility, :depth_range, :water_temp
 
   @@all = []
 
