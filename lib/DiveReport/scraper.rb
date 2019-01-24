@@ -29,16 +29,19 @@ class Scraper
       html = open(DIVE_REPORT_URL + animal.url)
       doc = Nokogiri::HTML(html)
       animal.description = doc.css(".animale p")[0].text
-      divelocation_url = doc.css("div.searchResults ul li a.searchResultHeader").attr("href").value
+      divelocation_urls = []
+      doc.css("div.searchResults ul li").map do |urls|
+        divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+      end
       animal_locations = []
       animal_locations << DiveLocation.find_by_url(divelocation_url)
       puts "#{animal.name}:"
       puts "\nDescription: #{animal.description}"
-      puts "\nHere are dive locations where #{animal.name} can be viewd at:"
-      #  animal_locations.each.with_index(1) do |location, i|
-      #    puts "#{i}. #{location.name}"
-      #    binding.pry
-      # end
+      puts "\nHere are dive locations where #{animal.name} can be viewd at"
+       animal_locations.each.with_index(1) do |location, i|
+         puts "#{i}. #{location}"
+         
+       end
 
      end
 
