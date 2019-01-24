@@ -85,7 +85,10 @@ class Scraper
   def self.scrape_country_details(country)
     html = open(DIVE_REPORT_URL + country.url)
     doc = Nokogiri::HTML(html)
-    puts "\nHere are dive locations in #{country.name}"
+
+    country.description = doc.css(".tab p")[0].text
+    puts "#{country.description}\n"
+    puts "Here are dive locations in #{country.name}\n"
     #divelocation_urls(country)
     divelocation_urls = []
     doc.css("div.searchResults ul li").map do |urls|
