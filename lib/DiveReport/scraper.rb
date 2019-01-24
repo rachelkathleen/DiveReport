@@ -37,6 +37,12 @@ class Scraper
     object_locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
+    puts "\nChoose a dive location to see more information"
+    input = gets.strip.to_i
+    if (1..object_locations.length).include?(input)
+       dive_location = object_locations.length[input - 1]
+       self.scrape_dive_location_details(dive_location)
+    end
   end
 
   def self.scrape_animal_details(animal)
@@ -71,5 +77,18 @@ class Scraper
     puts "\n#{country.description}\n"
     puts "\nHere are dive locations in #{country.name}\n"
     self.divelocation_urls(country)
+  end
+
+  def self.scrape_dive_location_details(dive_location)
+    html = open(DIVE_REPORT_URL + dive_location.url)
+    doc = Nokogiri::HTML(html)
+
+    dive_location.description = doc.css(".tab p strong").text
+    dive_location.visibility = doc.css("span.val")[3].text
+    dive_location.depth_range = doc.css("span.val")[4].text
+
+    puts "\n#{dive_location.description}"
+    puts "\nVisibility: #{dive_location.visibility}"
+    puts "\nDepth Range: #{dive_location.depth_range}"
   end
 end
