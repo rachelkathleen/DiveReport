@@ -35,8 +35,8 @@ class Scraper
       end
       animal_locations = []
       divelocation_urls.each {|url| animal_locations << DiveLocation.find_by_url(url)}
-      puts "\nDescription: #{animal.description}"
-      puts "\nHere are dive locations where #{animal.name} can be viewd at"
+      puts "\n#{animal.description}"
+      puts "\nHere are dive locations where #{animal.name} can be viewed at"
        animal_locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
       end
