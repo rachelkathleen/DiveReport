@@ -6,9 +6,9 @@ class Scraper
 
   def self.scrape_directory_site
     html = open('http://www.divereport.com/site-directory/')
-    doc = Nokogiri::HTML(open(html))
+    page = Nokogiri::HTML(open(html))
 
-    objects = doc.css("ul.sitemaplist li a")
+    objects = page.css("ul.sitemaplist li a")
     objects.each.with_index do |nodeset, i|
       url = nodeset.attr("href")
       name = nodeset.text
@@ -24,79 +24,43 @@ class Scraper
     end
   end
 
+  def self.get_page(object)
+   Nokogiri::HTML(open(DIVE_REPORT_URL + object.url))
+  end
+
   def self.animal_details(animal)
-    html = open(DIVE_REPORT_URL + animal.url)
-    doc = Nokogiri::HTML(html)
-    animal.description = doc.css(".animale p")[0].text
+    page = self.get_page(animal)
+    animal.description = page.css(".animale p")[0].text
   end
 
   def self.divelocation_urls(object)
-    html = open(DIVE_REPORT_URL + object.url)
-    doc = Nokogiri::HTML(html)
-
+    page = self.get_page(object)
     divelocation_urls = []
-    doc.css("div.searchResults ul li").map do |urls|
+    page.css("div.searchResults ul li").map do |urls|
       divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
     end
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
     object_locations
-    #
-    # object_locations.each.with_index(1) do |location, i|
-    #   puts "#{i}. #{location}"
-  end
-  #     puts "#{i}. #{location}"
-  #   end
-  #
-  #   puts "Pick a dive location for more details"
-  #   input = gets.strip.to_i
-  #   if (1..object_locations.length).include?(input)
-  #      dive_location_name = object_locations[input - 1]
-  #      dive_location = DiveLocation.find_by_name(dive_location_name)
-  #    end
-  #    self.scrape_dive_location_details(dive_location)
-  # end
-
-
-
-
-
-  def self.animal_dive_locations
-    self.divelocation_urls(animal)
-
   end
 
   def self.region_details(region)
-    html = open(DIVE_REPORT_URL + region.url)
-    doc = Nokogiri::HTML(html)
-
+    page = self.get_page(region)
     countries = []
-    doc.css(".MainAndOffside div.TabCol h1").each do |country|
-      countries << country.text
-    end
-    puts "Here are countries with dive locations in #{region.name}\n"
-    countries.each {|country| puts "#{country}"}
-    puts "\nHere are dive locations in #{region.name}\n"
-    self.divelocation_urls(region)
+    page.css(".MainAndOffside div.TabCol h1").each {|country| countries << country.text}
+    countries = []
   end
 
-  def self.scrape_country_details(country)
-    html = open(DIVE_REPORT_URL + country.url)
-    doc = Nokogiri::HTML(html)
-
-    country.description = doc.css(".tab p")[0].text if country.description
-    puts "\n#{country.description}\n"
-    puts "\nHere are dive locations in #{country.name}\n"
-    self.divelocation_urls(country)
+  def self.country_details(country)
+    page = self.get_page(country)
+    country.description = page.css(".tab p")[0].text if country.description
   end
 
   def self.scrape_dive_location_details(dive_location)
-    html = open(DIVE_REPORT_URL + dive_location.url)
-    doc = Nokogiri::HTML(html)
-
-    dive_location.description = doc.css(".tab p strong").text
-    dive_location.water_temp = doc.css("span.val")[2].text.gsub("\u00B0", "")
-    dive_location.visibility = doc.css("span.val")[3].text
-    dive_location.depth_range = doc.css("span.val")[4].text
+    page = self.get_page(dive_location)
+    dive_location.description = page.css(".tab p strong").text
+    dive_location.water_temp = page.css("span.val")[2].text.gsub("\u00B0", "")
+    dive_location.visibility = page.css("span.val")[3].text
+    dive_location.depth_range = page.css("span.val")[4].text if dive_location.depth_range
   end
 end

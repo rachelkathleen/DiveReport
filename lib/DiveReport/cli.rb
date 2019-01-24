@@ -28,6 +28,27 @@ class CLI
     end
   end
 
+  def dive_location_input(object)
+    puts "\nSelect a dive location to see more details"
+    input = gets.strip.to_i
+    dive_locations = Scraper.divelocation_urls(object)
+    if (1..dive_locations.length).include?(input)
+      dive_location_name = dive_locations[input - 1]
+      dive_location_object = DiveLocation.find_by_name(dive_location_name)
+    else
+      invalid
+    end
+    print_location_details(dive_location_object)
+  end
+
+  def print_location_details(dive_location)
+    Scraper.scrape_dive_location_details(dive_location)
+    puts "#{dive_location.description}"
+    puts "\nWater Temperature: #{dive_location.water_temp}"
+    puts "Visibility: #{dive_location.visibility}"
+    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
+  end
+
   def print_animal_names
     Animal.print_names
     puts "\nPlease enter the number of the animal you want to see more about."
@@ -58,11 +79,14 @@ class CLI
   end
 
   def print_region_details(region)
-    puts "#{Scraper.region_details(region)}"
+    Scraper.region_details(region).each.with_index(1) do |country, i|
+      puts "#{country}"
+    end
     puts "\nHere are dive locations in #{region.name}\n"
-    Scraper.divelocation_urls(region) do |location, i|
+    Scraper.divelocation_urls(region).each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
+    dive_location_input(region)
   end
 
   def print_countries
@@ -72,14 +96,16 @@ class CLI
      if (1..Country.all.length).include?(input)
        country = Country.all[input - 1]
      end
-     Scraper.scrape_country_details(country)
+     print_country_details(country)
   end
 
   def print_country_details(country)
-    puts "#{Scraper.countr_details(country)}"
+    puts "#{Scraper.country_details(country)}" if country.description
     puts "\nHere are dive locations in #{country.name}\n"
-    Scraper.divelocation_urls(region) do |location, i|
+    Scraper.divelocation_urls(country).each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
+    end
+    dive_location_input(country)
   end
 
   def dive_location_input(object)
@@ -93,14 +119,6 @@ class CLI
       invalid
     end
     print_location_details(dive_location_object)
-  end
-
-  def print_location_details(dive_location)
-    Scraper.scrape_dive_location_details(dive_location)
-    puts "#{dive_location.description}"
-    puts "\nWater Temperature: #{dive_location.water_temp}"
-    puts "Visibility: #{dive_location.visibility}"
-    puts "Depth Range: #{dive_location.depth_range}"
   end
 
   def goodbye
