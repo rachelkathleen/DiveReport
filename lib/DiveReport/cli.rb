@@ -64,12 +64,4 @@ class CLI
   def invalid
     puts "Sorry - that wasn't a valid entry."
   end
-
-  def show_animal_details(animal)
-    puts "#{animal.name}:"
-    puts "\nDescription: #{animal.description}"
-    puts "\nHere are dive locations where #{animal.name} can be viewd at:"
-    animal.locations
-  end
-#.each.with_index(1) {|location, i| "#{i}." "location"}
 end
