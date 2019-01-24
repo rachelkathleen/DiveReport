@@ -36,7 +36,7 @@ class Scraper
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
     object_locations.each.with_index(1) do |location, i|
-      puts "{i}. #{location}"
+      puts "#{i}. #{location}"
     end
   end
 
@@ -92,18 +92,4 @@ class Scraper
     end
   end
 
-  def divelocation_urls(object)
-    html = open("http://www.divereport.com/" + object.url)
-    doc = Nokogiri::HTML(html)
-
-    divelocation_urls = []
-    doc.css("div.searchResults ul li").map do |urls|
-      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
-    end
-    object_locations = []
-    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
-    object_locations.each.with_index(1) do |location, i|
-      puts "\n#{i}. #{location}"
-    end
-  end
 end
