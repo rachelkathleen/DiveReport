@@ -22,23 +22,27 @@ class Scraper
         DiveLocation.new(name, url)
       end
     end
-   end
+  end
 
 
-    def self.scrape_animal_details(animal)
-      html = open(DIVE_REPORT_URL + animal.url)
-      doc = Nokogiri::HTML(html)
-      animal.description = doc.css(".animale p")[0].text
-      divelocation_urls = []
-      doc.css("div.searchResults ul li").map do |urls|
-        divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
-      end
-      animal_locations = []
-      divelocation_urls.each {|url| animal_locations << DiveLocation.find_by_url(url)}
-      puts "\n#{animal.description}"
-      puts "\nHere are dive locations where #{animal.name} can be viewed at"
-       animal_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-      end
+  def self.scrape_animal_details(animal)
+    html = open(DIVE_REPORT_URL + animal.url)
+    doc = Nokogiri::HTML(html)
+
+    animal.description = doc.css(".animale p")[0].text
+
+    divelocation_urls = []
+    doc.css("div.searchResults ul li").map do |urls|
+      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+    end
+
+    animal_locations = []
+    divelocation_urls.each {|url| animal_locations << DiveLocation.find_by_url(url)}
+
+    puts "\n#{animal.description}"
+    puts "\nHere are dive locations where #{animal.name} can be viewed at"
+      animal_locations.each.with_index(1) do |location, i|
+    puts "#{i}. #{location}"
     end
   end
+end
