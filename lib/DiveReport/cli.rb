@@ -34,7 +34,7 @@ class CLI
       animal = Animal.all[input - 1]
     end
     Scraper.scrape_animal_details(animal)
-    
+
    end
 
    def print_regions
@@ -44,7 +44,8 @@ class CLI
       if (1..Region.all.length).include?(input)
         region = Region.all[input - 1]
       end
-  end
+      Scraper.scrape_region_details(region)
+    end
 
   def print_countries
      Country.print_names
@@ -53,6 +54,7 @@ class CLI
      if (1..Country.all.length).include?(input)
        country = Country.all[input - 1]
      end
+     Scraper.scrape_country_details(country)
   end
 
   def goodbye
