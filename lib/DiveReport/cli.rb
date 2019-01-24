@@ -34,7 +34,7 @@ class CLI
       animal = Animal.all[input - 1]
     end
     Scraper.scrape_animal_details(animal)
-
+    print_location_details
    end
 
    def print_regions
@@ -45,6 +45,7 @@ class CLI
         region = Region.all[input - 1]
       end
       Scraper.scrape_region_details(region)
+      print_location_details
     end
 
   def print_countries
@@ -55,6 +56,15 @@ class CLI
        country = Country.all[input - 1]
      end
      Scraper.scrape_country_details(country)
+     print_location_details
+  end
+
+  def print_location_details
+    # puts "\nChoose a dive location to see more information"
+    # input = gets.strip.to_i
+    # #how to go to integer to dive location object?
+    # Scraper.scrape_dive_location_details(object)
+    puts "pending"
   end
 
   def goodbye
