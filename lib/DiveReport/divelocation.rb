@@ -1,5 +1,5 @@
 class DiveLocation
-  attr_accessor :name, :url, :country
+  attr_accessor :name, :url, :country, :description, :visibility, :depth_range
 
   @@all = []
 
