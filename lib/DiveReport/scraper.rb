@@ -24,6 +24,12 @@ class Scraper
     end
   end
 
+  def self.animal_details(animal)
+    html = open(DIVE_REPORT_URL + animal.url)
+    doc = Nokogiri::HTML(html)
+    animal.description = doc.css(".animale p")[0].text
+  end
+
   def self.divelocation_urls(object)
     html = open(DIVE_REPORT_URL + object.url)
     doc = Nokogiri::HTML(html)
@@ -35,31 +41,32 @@ class Scraper
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
     object_locations
-
-    object_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
-
-    puts "Pick a dive location for more details"
-    input = gets.strip.to_i
-    if (1..object_locations.length).include?(input)
-       dive_location_name = object_locations[input - 1]
-       dive_location = DiveLocation.find_by_name(dive_location_name)
-     end
-     self.scrape_dive_location_details(dive_location)
+    #
+    # object_locations.each.with_index(1) do |location, i|
+    #   puts "#{i}. #{location}"
   end
+  #     puts "#{i}. #{location}"
+  #   end
+  #
+  #   puts "Pick a dive location for more details"
+  #   input = gets.strip.to_i
+  #   if (1..object_locations.length).include?(input)
+  #      dive_location_name = object_locations[input - 1]
+  #      dive_location = DiveLocation.find_by_name(dive_location_name)
+  #    end
+  #    self.scrape_dive_location_details(dive_location)
+  # end
 
-  def self.scrape_animal_details(animal)
-    html = open(DIVE_REPORT_URL + animal.url)
-    doc = Nokogiri::HTML(html)
 
-    animal.description = doc.css(".animale p")[0].text
-    puts "\n#{animal.description}"
-    puts "\nHere are dive locations where #{animal.name} can be found"
+
+
+
+  def self.animal_dive_locations
     self.divelocation_urls(animal)
+
   end
 
-  def self.scrape_region_details(region)
+  def self.region_details(region)
     html = open(DIVE_REPORT_URL + region.url)
     doc = Nokogiri::HTML(html)
 
@@ -90,9 +97,5 @@ class Scraper
     dive_location.description = doc.css(".tab p strong").text
     dive_location.visibility = doc.css("span.val")[3].text
     dive_location.depth_range = doc.css("span.val")[4].text
-
-    puts "#{dive_location.description}"
-    puts "Visibility: #{dive_location.visibility}"
-    puts "Depth Range: #{dive_location.depth_range}"
   end
 end
