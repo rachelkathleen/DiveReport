@@ -54,7 +54,7 @@ class CLI
     if (1..dive_locations.length).include?(input)
       dive_location_name = dive_locations[input - 1]
       dive_location_object = DiveLocation.find_by_name(dive_location_name)
-    else 
+    else
       invalid
     end
     print_location_details(dive_location_object)
@@ -63,6 +63,7 @@ class CLI
   def print_location_details(dive_location)
     Scraper.scrape_dive_location_details(dive_location)
     puts "#{dive_location.description}"
+    puts "\nWater Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
     puts "Depth Range: #{dive_location.depth_range}"
   end
