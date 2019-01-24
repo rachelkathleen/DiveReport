@@ -25,15 +25,37 @@ class Scraper
   end
 
 
+  def divelocation_urls(object)
+    html = open("http://www.divereport.com/" + object.url)
+    doc = Nokogiri::HTML(html)
+
+    divelocation_urls = []
+    doc.css("div.searchResults ul li").map do |urls|
+      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+    end
+    object_locations = []
+    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
+    object_locations.each.with_index(1) do |location, i|
+      puts "{i}. #{location}"
+    end
+  end
+
   def self.scrape_animal_details(animal)
     html = open(DIVE_REPORT_URL + animal.url)
     doc = Nokogiri::HTML(html)
 
     animal.description = doc.css(".animale p")[0].text
     puts "\n#{animal.description}"
-    puts "Here are dive locations where #{animal.name} can be found"
-    divelocation_urls(animal)
-
+    puts "\nHere are dive locations where #{animal.name} can be found"
+    #divelocation_urls(animal)
+    divelocation_urls = []
+    doc.css("div.searchResults ul li").map do |urls|
+      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+    end
+    object_locations = []
+    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
+    object_locations.each.with_index(1) do |location, i|
+      puts "#{i}. #{location}"
     end
   end
 
@@ -41,15 +63,33 @@ class Scraper
     html = open(DIVE_REPORT_URL + region.url)
     doc = Nokogiri::HTML(html)
     #countries: doc.css(".MainAndOffside div.TabCol h1").text
-    puts "Here are dive locations in #{region.name}"
-    divelocation_urls
+    puts "\nHere are dive locations in #{region.name}"
+    #divelocation_urls(region)
+    divelocation_urls = []
+    doc.css("div.searchResults ul li").map do |urls|
+      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+    end
+    object_locations = []
+    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
+    object_locations.each.with_index(1) do |location, i|
+      puts "#{i}. #{location}"
+    end
   end
 
   def self.scrape_country_details(country)
     html = open(DIVE_REPORT_URL + country.url)
     doc = Nokogiri::HTML(html)
-    puts "Here are dive locations in #{region.name}"
-    divelocation_urls
+    puts "\nHere are dive locations in #{country.name}"
+    #divelocation_urls(country)
+    divelocation_urls = []
+    doc.css("div.searchResults ul li").map do |urls|
+      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
+    end
+    object_locations = []
+    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
+    object_locations.each.with_index(1) do |location, i|
+      puts "#{i}. #{location}"
+    end
   end
 
   def divelocation_urls(object)
@@ -63,6 +103,7 @@ class Scraper
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
     object_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
+      puts "\n#{i}. #{location}"
+    end
   end
 end
