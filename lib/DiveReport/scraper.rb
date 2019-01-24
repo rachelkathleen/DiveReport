@@ -95,6 +95,7 @@ class Scraper
     doc = Nokogiri::HTML(html)
 
     dive_location.description = doc.css(".tab p strong").text
+    dive_location.water_temp = doc.css("span.val")[2].text.gsub("\u00B0", "")
     dive_location.visibility = doc.css("span.val")[3].text
     dive_location.depth_range = doc.css("span.val")[4].text
   end
