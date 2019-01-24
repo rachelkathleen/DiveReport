@@ -24,9 +24,8 @@ class Scraper
     end
   end
 
-
-  def divelocation_urls(object)
-    html = open("http://www.divereport.com/" + object.url)
+  def self.divelocation_urls(object)
+    html = open(DIVE_REPORT_URL + object.url)
     doc = Nokogiri::HTML(html)
 
     divelocation_urls = []
@@ -47,16 +46,7 @@ class Scraper
     animal.description = doc.css(".animale p")[0].text
     puts "\n#{animal.description}"
     puts "\nHere are dive locations where #{animal.name} can be found"
-    #divelocation_urls(animal)
-    divelocation_urls = []
-    doc.css("div.searchResults ul li").map do |urls|
-      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
-    end
-    object_locations = []
-    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
-    object_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
+    self.divelocation_urls(animal)
   end
 
   def self.scrape_region_details(region)
@@ -69,36 +59,17 @@ class Scraper
     end
     puts "Here are countries with dive locations in #{region.name}\n"
     countries.each {|country| puts "#{country}"}
-    puts "\nHere are dive locations in #{region.name}"
-    #divelocation_urls(region)
-    divelocation_urls = []
-    doc.css("div.searchResults ul li").map do |urls|
-      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
-    end
-    object_locations = []
-    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
-    object_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
+    puts "\nHere are dive locations in #{region.name}\n"
+    self.divelocation_urls(region)
   end
 
   def self.scrape_country_details(country)
     html = open(DIVE_REPORT_URL + country.url)
     doc = Nokogiri::HTML(html)
 
-    country.description = doc.css(".tab p")[0].text
+    country.description = doc.css(".tab p")[0].text if country.description
     puts "\n#{country.description}\n"
     puts "\nHere are dive locations in #{country.name}\n"
-    #divelocation_urls(country)
-    divelocation_urls = []
-    doc.css("div.searchResults ul li").map do |urls|
-      divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
-    end
-    object_locations = []
-    divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
-    object_locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
+    self.divelocation_urls(country)
   end
-
 end
