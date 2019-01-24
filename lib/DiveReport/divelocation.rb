@@ -1,3 +1,4 @@
+require 'pry'
 class DiveLocation
   attr_accessor :name, :url, :country, :description, :visibility, :depth_range
 
@@ -17,7 +18,7 @@ class DiveLocation
    self.all.detect {|country| country.url == url}.name
  end
 
- def self.find_by_name(name)
-   self.all.detect {|x| x.name == name}
- end
+  def self.find_by_name(location_name)
+    self.all.find {|location| location.name == location_name}
+  end
 end
