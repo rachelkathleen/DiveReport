@@ -14,6 +14,6 @@ class DiveLocation
   end
 
   def self.find_by_url(url)
-   self.all.select{|country| country.url == url}
+   self.all.detect{|country| country.url == url}.name
  end
 end
