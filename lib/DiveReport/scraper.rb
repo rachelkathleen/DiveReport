@@ -34,21 +34,11 @@ class Scraper
         divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
       end
       animal_locations = []
-      animal_locations << DiveLocation.find_by_url(divelocation_url)
-      puts "#{animal.name}:"
+      divelocation_urls.each {|url| animal_locations << DiveLocation.find_by_url(url)}
       puts "\nDescription: #{animal.description}"
       puts "\nHere are dive locations where #{animal.name} can be viewd at"
        animal_locations.each.with_index(1) do |location, i|
-         puts "#{i}. #{location}"
-         
-       end
-
-     end
-
+      puts "#{i}. #{location}"
+      end
+    end
   end
-
- #  def self.find_by_url(url)
- #   self.all.select{|country| country.url == url}
- # end
-
-  #doc.css("div.searchResults ul li a.searchResultHeader").attr("href").value is the CSS selector for the url of the dive location.
