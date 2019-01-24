@@ -1,3 +1,5 @@
+require 'pry'
+
 class CLI
 
   def run
@@ -33,17 +35,53 @@ class CLI
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
     end
-    Scraper.scrape_animal_details(animal)
+    print_animal_details(animal)
    end
 
-   def print_regions
-      Region.print_names
-      puts "\nPlease enter the number of the region you want to see dive locations for."
-      input = gets.strip.to_i
-      if (1..Region.all.length).include?(input)
-        region = Region.all[input - 1]
+  def print_animal_details(animal)
+    puts "#{Scraper.animal_details(animal)}"
+    puts "\nHere are locations where #{animal.name} can be found:\n"
+    Scraper.divelocation_urls(animal).each.with_index(1) do |location, i|
+      puts "#{i}. #{location}"
+    end
+    dive_location_input(animal)
+  end
+
+  def dive_location_input(object)
+    puts "\nSelect a dive location to see more details"
+    input = gets.strip.to_i
+    dive_locations = Scraper.divelocation_urls(object)
+    if (1..dive_locations.length).include?(input)
+      dive_location_name = dive_locations[input - 1]
+      dive_location_object = DiveLocation.find_by_name(dive_location_name)
+    else 
+      invalid
+    end
+    print_location_details(dive_location_object)
+  end
+
+  def print_location_details(dive_location)
+    Scraper.scrape_dive_location_details(dive_location)
+    puts "#{dive_location.description}"
+    puts "Visibility: #{dive_location.visibility}"
+    puts "Depth Range: #{dive_location.depth_range}"
+  end
+
+  def print_regions
+    Region.print_names
+    puts "\nPlease enter the number of the region you want to see dive locations for."
+    input = gets.strip.to_i
+    if (1..Region.all.length).include?(input)
+      region = Region.all[input - 1]
+    end
+    print_region_details(region)
+  end
+
+    def print_region_details(region)
+      puts "#{Scraper.region_details(region)}"
+      Scraper.divelocation_urls(region) do |location, i|
+        puts "#{i}. #{location}"
       end
-      Scraper.scrape_region_details(region)
     end
 
   def print_countries
