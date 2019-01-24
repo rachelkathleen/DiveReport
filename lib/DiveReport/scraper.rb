@@ -34,9 +34,12 @@ class Scraper
     end
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
+    object_locations
+
     object_locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
+
     puts "Pick a dive location for more details"
     input = gets.strip.to_i
     if (1..object_locations.length).include?(input)
