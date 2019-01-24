@@ -32,7 +32,7 @@ class Scraper
     animal.description = doc.css(".animale p")[0].text
     puts "\n#{animal.description}"
     puts "Here are dive locations where #{animal.name} can be found"
-    divelocation_urls
+    divelocation_urls(animal)
 
     end
   end
@@ -52,7 +52,10 @@ class Scraper
     divelocation_urls
   end
 
-  def divelocation_urls
+  def divelocation_urls(object)
+    html = open("http://www.divereport.com/" + object.url)
+    doc = Nokogiri::HTML(html)
+
     divelocation_urls = []
     doc.css("div.searchResults ul li").map do |urls|
       divelocation_urls << urls.css("span.searchResultContent a").attr("href").value
