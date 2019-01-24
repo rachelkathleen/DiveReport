@@ -37,6 +37,13 @@ class Scraper
     object_locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
+    puts "Pick a dive location for more details"
+    input = gets.strip.to_i
+    if (1..object_locations.length).include?(input)
+       dive_location_name = object_locations[input - 1]
+       dive_location = DiveLocation.find_by_name(dive_location_name)
+     end
+     self.scrape_dive_location_details(dive_location)
   end
 
   def self.scrape_animal_details(animal)
@@ -81,8 +88,8 @@ class Scraper
     dive_location.visibility = doc.css("span.val")[3].text
     dive_location.depth_range = doc.css("span.val")[4].text
 
-    puts "\n#{dive_location.description}"
-    puts "\nVisibility: #{dive_location.visibility}"
-    puts "\nDepth Range: #{dive_location.depth_range}"
+    puts "#{dive_location.description}"
+    puts "Visibility: #{dive_location.visibility}"
+    puts "Depth Range: #{dive_location.depth_range}"
   end
 end
