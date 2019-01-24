@@ -37,12 +37,6 @@ class Scraper
     object_locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
-    puts "\nChoose a dive location to see more information"
-    input = gets.strip.to_i
-    if (1..object_locations.length).include?(input)
-       dive_location = object_locations.length[input - 1]
-       self.scrape_dive_location_details(dive_location)
-    end
   end
 
   def self.scrape_animal_details(animal)
