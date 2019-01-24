@@ -47,6 +47,41 @@ class CLI
     dive_location_input(animal)
   end
 
+  def print_regions
+    Region.print_names
+    puts "\nPlease enter the number of the region you want to see dive locations for."
+    input = gets.strip.to_i
+    if (1..Region.all.length).include?(input)
+      region = Region.all[input - 1]
+    end
+    print_region_details(region)
+  end
+
+  def print_region_details(region)
+    puts "#{Scraper.region_details(region)}"
+    puts "\nHere are dive locations in #{region.name}\n"
+    Scraper.divelocation_urls(region) do |location, i|
+      puts "#{i}. #{location}"
+    end
+  end
+
+  def print_countries
+     Country.print_names
+     puts "\nPlease enter the number of the country you want to see dive locations for."
+     input = gets.strip.to_i
+     if (1..Country.all.length).include?(input)
+       country = Country.all[input - 1]
+     end
+     Scraper.scrape_country_details(country)
+  end
+
+  def print_country_details(country)
+    puts "#{Scraper.countr_details(country)}"
+    puts "\nHere are dive locations in #{country.name}\n"
+    Scraper.divelocation_urls(region) do |location, i|
+      puts "#{i}. #{location}"
+  end
+
   def dive_location_input(object)
     puts "\nSelect a dive location to see more details"
     input = gets.strip.to_i
@@ -66,33 +101,6 @@ class CLI
     puts "\nWater Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
     puts "Depth Range: #{dive_location.depth_range}"
-  end
-
-  def print_regions
-    Region.print_names
-    puts "\nPlease enter the number of the region you want to see dive locations for."
-    input = gets.strip.to_i
-    if (1..Region.all.length).include?(input)
-      region = Region.all[input - 1]
-    end
-    print_region_details(region)
-  end
-
-    def print_region_details(region)
-      puts "#{Scraper.region_details(region)}"
-      Scraper.divelocation_urls(region) do |location, i|
-        puts "#{i}. #{location}"
-      end
-    end
-
-  def print_countries
-     Country.print_names
-     puts "\nPlease enter the number of the country you want to see dive locations for."
-     input = gets.strip.to_i
-     if (1..Country.all.length).include?(input)
-       country = Country.all[input - 1]
-     end
-     Scraper.scrape_country_details(country)
   end
 
   def goodbye
