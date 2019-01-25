@@ -47,6 +47,7 @@ class CLI
     puts "\nWater Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
     puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
+    goodbye_or_menu
   end
 
   def print_animal_names
@@ -55,8 +56,11 @@ class CLI
     input = gets.strip.to_i
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
+      print_animal_details(animal)
+    else
+      invalid
+      print_animal_names
     end
-    print_animal_details(animal)
    end
 
   def print_animal_details(animal)
@@ -74,8 +78,11 @@ class CLI
     input = gets.strip.to_i
     if (1..Region.all.length).include?(input)
       region = Region.all[input - 1]
+      print_region_details(region)
+    else
+      invalid
+      print_regions
     end
-    print_region_details(region)
   end
 
   def print_region_details(region)
@@ -95,8 +102,11 @@ class CLI
      input = gets.strip.to_i
      if (1..Country.all.length).include?(input)
        country = Country.all[input - 1]
-     end
-     print_country_details(country)
+       print_country_details(country)
+     else
+       invalid
+       print_countries
+     end 
   end
 
   def print_country_details(country)
@@ -117,15 +127,23 @@ class CLI
       dive_location_object = DiveLocation.find_by_name(dive_location_name)
     else
       invalid
+      input = gets.strip.to_i
     end
     print_location_details(dive_location_object)
   end
 
   def goodbye
-    puts "Thank you for using DiveReport!"
+    puts "\nThank you for using DiveReport!"
   end
 
   def invalid
-    puts "Sorry - that wasn't a valid entry."
+    puts "Sorry - that wasn't a valid entry - please try again."
+  end
+
+  def goodbye_or_menu
+    puts "\nWould you like to seach for another dive location?"
+    puts "\nEnter 'animals', 'regions' or 'countries'."
+    puts "\nTo quit, type 'exit'."
+    first_input
   end
 end
