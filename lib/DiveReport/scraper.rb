@@ -61,6 +61,6 @@ class Scraper
     dive_location.description = page.css(".tab p strong").text
     dive_location.water_temp = page.css("span.val")[2].text.gsub("\u00B0", "")
     dive_location.visibility = page.css("span.val")[3].text
-    dive_location.depth_range = page.css("span.val")[4].text if dive_location.depth_range
+    dive_location.depth_range = page.css("span.val")[4].text
   end
 end
