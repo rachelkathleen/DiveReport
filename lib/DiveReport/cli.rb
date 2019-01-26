@@ -5,13 +5,13 @@ class CLI
   def run
     puts "Welcome to DiveReport! Use this gem to find dive locations that are of interest to you."
     Scraper.scrape_directory_site
-    puts "\nWould you like to find dive locations based on marine life, region or country?"
-    puts "\nEnter 'animals', 'regions' or 'countries'."
-    puts "\nTo quit, type 'exit'."
     first_input
   end
 
   def first_input
+    puts "\nWould you like to find dive locations based on marine life, region or country?"
+    puts "\nEnter 'animals', 'regions' or 'countries'."
+    puts "\nTo quit, type 'exit'."
     input = gets.strip
 
     if  input == "animals"
@@ -39,16 +39,6 @@ class CLI
       invalid
     end
     print_location_details(dive_location_object)
-  end
-
-  def print_location_details(dive_location)
-    Scraper.scrape_dive_location_details(dive_location)
-    puts "\n#{dive_location.name}"
-    puts "\n#{dive_location.description}"
-    puts "\nWater Temperature: #{dive_location.water_temp}"
-    puts "Visibility: #{dive_location.visibility}"
-    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
-    goodbye_or_menu
   end
 
   def print_animal_names
@@ -131,6 +121,16 @@ class CLI
       input = gets.strip.to_i
     end
     print_location_details(dive_location_object)
+  end
+
+  def print_location_details(dive_location)
+    Scraper.scrape_dive_location_details(dive_location)
+    puts "\n#{dive_location.name}"
+    puts "\n#{dive_location.description}"
+    puts "\nWater Temperature: #{dive_location.water_temp}"
+    puts "Visibility: #{dive_location.visibility}"
+    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
+    goodbye_or_menu
   end
 
   def goodbye
