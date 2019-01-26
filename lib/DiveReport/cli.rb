@@ -43,7 +43,8 @@ class CLI
 
   def print_location_details(dive_location)
     Scraper.scrape_dive_location_details(dive_location)
-    puts "#{dive_location.description}"
+    puts "\n#{dive_location.name}"
+    puts "\n#{dive_location.description}"
     puts "\nWater Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
     puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
@@ -106,7 +107,7 @@ class CLI
      else
        invalid
        print_countries
-     end 
+     end
   end
 
   def print_country_details(country)
