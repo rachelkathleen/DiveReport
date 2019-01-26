@@ -28,19 +28,6 @@ class CLI
     end
   end
 
-  def dive_location_input(object)
-    puts "\nSelect a dive location to see more details"
-    input = gets.strip.to_i
-    dive_locations = Scraper.divelocation_urls(object)
-    if (1..dive_locations.length).include?(input)
-      dive_location_name = dive_locations[input - 1]
-      dive_location_object = DiveLocation.find_by_name(dive_location_name)
-    else
-      invalid
-    end
-    print_location_details(dive_location_object)
-  end
-
   def print_animal_names
     Animal.print_names
     puts "\nPlease enter the number of the animal you want to see more about."
