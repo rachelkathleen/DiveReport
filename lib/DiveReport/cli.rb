@@ -112,7 +112,7 @@ class CLI
 
   def print_location_details(dive_location)
     Scraper.scrape_dive_location_details(dive_location)
-    puts "\n#{dive_location.name}"
+    puts "\nHere are details about #{dive_location.name}:"
     puts "\n#{dive_location.description}"
     puts "\nWater Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
