@@ -47,6 +47,27 @@ class CLI
     input
   end
 
+  def print_countries
+    Country.print_names
+    puts "\nPlease enter the number of the country you want to see dive locations for."
+    input = gets.strip.to_i
+    if (1..Country.all.length).include?(input)
+     country = Country.all[input - 1]
+     print_country_details(country)
+   else
+     invalid
+     print_countries
+    end
+  end
+
+  def print_country_details(country)
+    puts "\nHere are dive locations in #{country.name}\n"
+    Scraper.divelocation_urls(country).each.with_index(1) do |location, i|
+      puts "#{i}. #{location}"
+    end
+    dive_location_input(country)
+  end
+
   def print_location_details(dive_location)
     Scraper.scrape_dive_location_details(dive_location)
     puts "\nHere are details about #{dive_location.name}:"
@@ -136,25 +157,25 @@ class CLI
       puts "#{i}: #{country}"
   end
 
-  def print_countries
-    Country.print_names
-    puts "\nPlease enter the number of the country you want to see dive locations for."
-    input = gets.strip.to_i
-    if (1..Country.all.length).include?(input)
-     country = Country.all[input - 1]
-     print_country_details(country)
-   else
-     invalid
-     print_countries
-    end
-  end
+  # def print_countries
+  #   Country.print_names
+  #   puts "\nPlease enter the number of the country you want to see dive locations for."
+  #   input = gets.strip.to_i
+  #   if (1..Country.all.length).include?(input)
+  #    country = Country.all[input - 1]
+  #    print_country_details(country)
+  #  else
+  #    invalid
+  #    print_countries
+  #   end
+  # end
 
-  def print_country_details(country)
-    puts "#{Scraper.country_details(country)}" if country.description
-    puts "\nHere are dive locations in #{country.name}\n"
-    Scraper.divelocation_urls(country).each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
-    dive_location_input(country)
-  end
+  # def print_country_details(country)
+  #   puts "#{Scraper.country_details(country)}" if country.description
+  #   puts "\nHere are dive locations in #{country.name}\n"
+  #   Scraper.divelocation_urls(country).each.with_index(1) do |location, i|
+  #     puts "#{i}. #{location}"
+  #   end
+  #   dive_location_input(country)
+  # end
 end
