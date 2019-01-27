@@ -16,4 +16,8 @@ class Country
   def self.print_names
      self.all.each.with_index(1) {|country, i| puts "#{i}. #{country.name}"}
    end
+
+   def self.find_by_name(country_name)
+  self.all.find {|country| country.name == country_name}
+end
 end
