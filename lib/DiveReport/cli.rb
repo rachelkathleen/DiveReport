@@ -114,7 +114,9 @@ class CLI
     Scraper.scrape_dive_location_details(dive_location)
     puts "\nHere are details about #{dive_location.name}:"
     puts "\n#{dive_location.description}"
-    puts "\nWater Temperature: #{dive_location.water_temp}"
+    puts "\nCountry: #{dive_location.country}"
+    puts "Area: #{dive_location.area}"
+    puts "Water Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
     puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
     goodbye_or_menu
