@@ -61,14 +61,16 @@ class CLI
 
   def dive_location_input(object)
     puts "\nSelect a dive location to see more details"
-    input = gets.strip.to_i
+    puts "\nTo go back to the main menu, enter 'menu'"
+    input = gets.strip
     dive_locations = Scraper.divelocation_urls(object)
-    if (1..dive_locations.length).include?(input)
-      dive_location_name = dive_locations[input - 1]
-      dive_location_object = DiveLocation.find_by_name(dive_location_name)
+    if (1..dive_locations.length).include?(input.to_i)
+      dive_location_object = DiveLocation.find_by_name(dive_locations[input.to_i - 1])
+    elsif input == "menu"
+      first_input
     else
       invalid
-      input = gets.strip.to_i
+      dive_location_input(object)
     end
     print_location_details(dive_location_object)
   end
@@ -113,11 +115,13 @@ class CLI
     print_countries_in_region(region)
     countries = Scraper.region_details(region)
     puts "\nPlease select a country to see dive locations"
-    # puts "Or, enter 'back' to return to the list of regions"
-      input = gets.strip.to_i
-      countries = Scraper.region_details(region)
-      if (1..countries.length).include?(input) && Country.find_by_name(countries[input -1]) != nil
-        print_country_details(Country.find_by_name(countries[input -1]))
+    puts "\nOr, enter 'back' to return to the list of regions"
+      input = gets.strip
+      if input == "back"
+        print_regions
+      elsif number = input.to_i
+        (1..countries.length).include?(number) && Country.find_by_name(countries[number -1]) != nil
+        print_country_details(Country.find_by_name(countries[number -1]))
       else
         invalid
         print_region_details(region)
