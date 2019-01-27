@@ -12,6 +12,18 @@ class CLI
     puts "\nWould you like to find dive locations based on marine life, region or country?"
     puts "\nEnter 'animals', 'regions' or 'countries'."
     puts "\nTo quit, type 'exit'."
+    input
+  end
+
+  def goodbye
+    puts "\nThank you for using DiveReport!"
+  end
+
+  def invalid
+    puts "Sorry - that wasn't a valid entry - please try again."
+  end
+
+  def input
     input = gets.strip
 
     if  input == "animals"
@@ -27,6 +39,40 @@ class CLI
       first_input
     end
   end
+
+  def goodbye_or_menu
+    puts "\nWould you like to seach for another dive location?"
+    puts "\nEnter 'animals', 'regions' or 'countries'."
+    puts "\nTo quit, type 'exit'."
+    input
+  end
+
+  def print_location_details(dive_location)
+    Scraper.scrape_dive_location_details(dive_location)
+    puts "\nHere are details about #{dive_location.name}:"
+    puts "\n#{dive_location.description}"
+    puts "\nCountry: #{dive_location.country}"
+    puts "Area: #{dive_location.area}"
+    puts "Water Temperature: #{dive_location.water_temp}"
+    puts "Visibility: #{dive_location.visibility}"
+    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
+    goodbye_or_menu
+  end
+
+  def dive_location_input(object)
+    puts "\nSelect a dive location to see more details"
+    input = gets.strip.to_i
+    dive_locations = Scraper.divelocation_urls(object)
+    if (1..dive_locations.length).include?(input)
+      dive_location_name = dive_locations[input - 1]
+      dive_location_object = DiveLocation.find_by_name(dive_location_name)
+    else
+      invalid
+      input = gets.strip.to_i
+    end
+    print_location_details(dive_location_object)
+  end
+
 
   def print_animal_names
     Animal.print_names
@@ -106,45 +152,5 @@ class CLI
       puts "#{i}. #{location}"
     end
     dive_location_input(country)
-  end
-
-  def dive_location_input(object)
-    puts "\nSelect a dive location to see more details"
-    input = gets.strip.to_i
-    dive_locations = Scraper.divelocation_urls(object)
-    if (1..dive_locations.length).include?(input)
-      dive_location_name = dive_locations[input - 1]
-      dive_location_object = DiveLocation.find_by_name(dive_location_name)
-    else
-      invalid
-      input = gets.strip.to_i
-    end
-    print_location_details(dive_location_object)
-  end
-
-  def print_location_details(dive_location)
-    Scraper.scrape_dive_location_details(dive_location)
-    puts "\nHere are details about #{dive_location.name}:"
-    puts "\n#{dive_location.description}"
-    puts "\nCountry: #{dive_location.country}"
-    puts "Area: #{dive_location.area}"
-    puts "Water Temperature: #{dive_location.water_temp}"
-    puts "Visibility: #{dive_location.visibility}"
-    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
-    goodbye_or_menu
-  end
-
-  def goodbye
-    puts "\nThank you for using DiveReport!"
-  end
-
-  def invalid
-    puts "Sorry - that wasn't a valid entry - please try again."
-  end
-
-  def goodbye_or_menu
-    puts "\nWould you like to seach for another dive location?"
-    puts "\nEnter 'animals', 'regions' or 'countries'."
-    puts "\nTo quit, type 'exit'."
   end
 end
