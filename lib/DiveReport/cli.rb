@@ -64,27 +64,39 @@ class CLI
   end
 
   def print_region_details(region)
-    Scraper.region_details(region).each.with_index(1) do |country, i|
-      puts "#{country}"
+    print_countries_in_region(region)
+    countries = Scraper.region_details(region)
+    puts "\nPlease select a country to see dive locations"
+    # puts "Or, enter 'back' to return to the list of regions"
+      input = gets.strip.to_i
+      countries = Scraper.region_details(region)
+      if (1..countries.length).include?(input) && Country.find_by_name(countries[input -1]) != nil
+        print_country_details(Country.find_by_name(countries[input -1]))
+      else
+        invalid
+        print_region_details(region)
+      end
     end
-    puts "\nHere are dive locations in #{region.name}\n"
-    Scraper.divelocation_urls(region).each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
-    end
-    dive_location_input(region)
+  end
+
+  def print_countries_in_region(region)
+    countries = Scraper.region_details(region)
+    puts "\nHere are countries in #{region.name}:\n"
+    countries.map.with_index(1) do |country, i|
+      puts "#{i}: #{country}"
   end
 
   def print_countries
-     Country.print_names
-     puts "\nPlease enter the number of the country you want to see dive locations for."
-     input = gets.strip.to_i
-     if (1..Country.all.length).include?(input)
-       country = Country.all[input - 1]
-       print_country_details(country)
-     else
-       invalid
-       print_countries
-     end
+    Country.print_names
+    puts "\nPlease enter the number of the country you want to see dive locations for."
+    input = gets.strip.to_i
+    if (1..Country.all.length).include?(input)
+     country = Country.all[input - 1]
+     print_country_details(country)
+   else
+     invalid
+     print_countries
+    end
   end
 
   def print_country_details(country)
@@ -134,6 +146,5 @@ class CLI
     puts "\nWould you like to seach for another dive location?"
     puts "\nEnter 'animals', 'regions' or 'countries'."
     puts "\nTo quit, type 'exit'."
-    first_input
   end
 end
