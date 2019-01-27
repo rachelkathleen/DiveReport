@@ -37,7 +37,7 @@ class Scraper
     page = self.get_page(region)
     countries = []
     page.css(".MainAndOffside div.TabCol h1").each {|country| countries << country.text}
-    countries = []
+    countries
   end
 
   def self.country_details(country)
