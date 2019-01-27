@@ -4,10 +4,6 @@ class Scraper
 
   DIVE_REPORT_URL = "http://www.divereport.com/"
 
-  def self.get_page(object)
-   Nokogiri::HTML(open(DIVE_REPORT_URL + object.url))
-  end
-
   def self.scrape_directory_site
     html = open('http://www.divereport.com/site-directory/')
     page = Nokogiri::HTML(open(html))
@@ -26,6 +22,10 @@ class Scraper
         DiveLocation.new(name, url)
       end
     end
+  end
+
+  def self.get_page(object)
+   Nokogiri::HTML(open(DIVE_REPORT_URL + object.url))
   end
 
   def self.animal_details(animal)
