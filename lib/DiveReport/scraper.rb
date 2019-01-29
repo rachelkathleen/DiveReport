@@ -31,7 +31,7 @@ class Scraper
   def self.animal_details(animal)
     page = self.get_page(animal)
     animal.description = page.css(".animale p")[0].text
-    self.divelocation_urls(animals)
+    self.divelocation_urls(animal)
   end
 
   def self.region_details(region)
