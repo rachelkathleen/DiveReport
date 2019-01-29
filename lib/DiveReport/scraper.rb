@@ -38,15 +38,12 @@ class Scraper
     # countries = []
     # self.get_page(region).css(".MainAndOffside div.TabCol h1").each {|country| Region.countries = Country.find_by_name(country.text)}
     # countries
-
     countries = []
-self.get_page(region).css(".MainAndOffside div.TabCol h1").each {|country| countries << country.text}
-countries
-#self.divelocation_urls(region)
+    self.get_page(region).css(".MainAndOffside div.TabCol h1").each {|country| countries << country.text}
+    countries
   end
 
   def self.country_details(country)
-    #binding.pry
     country.description = self.get_page(country).css(".tab p")[0].text
     self.divelocation_urls(country)
   end

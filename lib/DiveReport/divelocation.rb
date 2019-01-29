@@ -1,6 +1,6 @@
 require 'pry'
 class DiveLocation
-  attr_accessor :name, :url, :country, :description, :visibility, :depth_range, :water_temp, :area
+  attr_accessor :name, :url, :country, :description, :visibility, :depth_range, :water_temp, :area, :animals
 
   @@all = []
 
@@ -25,4 +25,9 @@ class DiveLocation
   def self.find_by_name(country_name)
     self.all.find {|country| country.name == country_name}
   end
+
+  def self.find_animals(animal)
+    if Animal.locations.include?(self)
+      DiveLocation.animals = animal
+    end
 end
