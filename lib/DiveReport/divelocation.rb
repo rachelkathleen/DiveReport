@@ -15,7 +15,7 @@ class DiveLocation
   end
 
   def self.find_by_url(url)
-   self.all.detect {|location| location.url == url}.name
+   self.all.detect {|location| location.url == url}
  end
 
   def self.find_by_name(location_name)
