@@ -30,4 +30,5 @@ class DiveLocation
     if Animal.locations.include?(self)
       DiveLocation.animals = animal
     end
+  end
 end
