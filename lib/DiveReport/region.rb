@@ -1,5 +1,5 @@
 class Region
-  attr_accessor :name, :countries, :url
+  attr_accessor :name, :countries, :url, :locations
 
   @@all = []
 

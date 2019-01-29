@@ -61,8 +61,9 @@ class CLI
   end
 
   def print_country_details(country)
+    Scraper.divelocation_urls(country)
     puts "\nHere are dive locations in #{country.name}\n"
-    Scraper.divelocation_urls(country).each.with_index(1) do |location, i|
+    country.locations.each.with_index(1) do |location, i|
       puts "#{i}. #{location}"
     end
     dive_location_input(country)
