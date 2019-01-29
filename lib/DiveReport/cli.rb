@@ -84,9 +84,8 @@ class CLI
     puts "\nSelect a dive location to see more details"
     puts "\nTo go back to the main menu, enter 'menu'"
     input = gets.strip
-    dive_locations = Scraper.divelocation_urls(object)
-    if (1..dive_locations.length).include?(input.to_i)
-      dive_location_object = DiveLocation.find_by_name(dive_locations[input.to_i - 1])
+    if (1..object.locations.length).include?(input.to_i)
+      dive_location_object = object.locations[input.to_i-1]
     elsif input == "menu"
       first_input
     else
@@ -111,10 +110,11 @@ class CLI
    end
 
   def print_animal_details(animal)
-    puts "#{Scraper.animal_details(animal)}"
+    Scraper.animal_details(animal)
+    puts "#{animal.description}"
     puts "\nHere are locations where #{animal.name} can be found:\n"
-    Scraper.divelocation_urls(animal).each.with_index(1) do |location, i|
-      puts "#{i}. #{location}"
+    animal.locations.each.with_index(1) do |location, i|
+      puts "#{i}. #{location.name}"
     end
     dive_location_input(animal)
   end
