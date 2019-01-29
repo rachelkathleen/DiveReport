@@ -1,5 +1,5 @@
 class Region
-  attr_accessor :name, :countries, :url, :locations
+  attr_accessor :name, :url, :countries, :locations
 
   @@all = []
 
@@ -15,6 +15,5 @@ class Region
 
   def self.print_names
      self.all.each.with_index(1) {|region, i| puts "#{i}. #{region.name}"}
-   end
-
+  end
 end
