@@ -85,7 +85,8 @@ class CLI
   end
 
   def print_location_details(dive_location)
-    Scraper.scrape_dive_location_details(dive_location)
+    # Scraper.scrape_dive_location_details(dive_location)
+    DiveLocation.add_location_attributes(dive_location)
     puts "\nHere are details about #{dive_location.name}:"
     puts "\n#{dive_location.description}"
     puts "\nCountry: #{dive_location.country}"
