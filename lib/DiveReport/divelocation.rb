@@ -19,6 +19,7 @@ class DiveLocation
     dive_location.visibility = dive_location_hash[:visibility]
     dive_location.water_temp = dive_location_hash[:water_temp]
     dive_location.area = dive_location_hash[:area]
+    dive_location.country = dive_location_hash[:country]
   end
 
   def self.find_by_url(url)
