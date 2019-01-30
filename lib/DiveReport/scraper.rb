@@ -35,9 +35,6 @@ class Scraper
   end
 
   def self.region_details(region)
-    # countries = []
-    # self.get_page(region).css(".MainAndOffside div.TabCol h1").each {|country| Region.countries = Country.find_by_name(country.text)}
-    # countries
     countries = []
     self.get_page(region).css(".MainAndOffside div.TabCol h1").each {|country| countries << country.text}
     countries
