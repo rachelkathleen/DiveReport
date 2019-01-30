@@ -61,11 +61,12 @@ class Scraper
 
   def self.scrape_dive_location_details(dive_location)
     page = self.get_page(dive_location)
-    dive_location.description = page.css(".tab p strong").text
-    dive_location.country = page.css("span.val")[0].text
-    dive_location.area = page.css("span.val")[1].text
-    dive_location.water_temp = page.css("span.val")[2].text.gsub("\u00B0", "")
-    dive_location.visibility = page.css("span.val")[3].text
-    dive_location.depth_range = page.css("span.val")[4].text if dive_location.depth_range
+    dive_locations_hash = {description: page.css(".tab p strong").text,
+                        country: page.css("span.val")[0].text,
+                        area: page.css("span.val")[1].text,
+                        water_temp: page.css("span.val")[2].text.gsub("\u00B0", ""),
+                        visibility: page.css("span.val")[3].text,
+                        depth_range: page.css("span.val")[4].text
+                      }
   end
 end
