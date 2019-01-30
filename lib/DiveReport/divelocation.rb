@@ -17,7 +17,6 @@ class DiveLocation
     dive_location_hash = Scraper.scrape_dive_location_details(dive_location)
     dive_location.description = dive_location_hash[:description]
     dive_location.visibility = dive_location_hash[:visibility]
-    dive_location.depth_range = dive_location_hash[:depth_range]
     dive_location.water_temp = dive_location_hash[:water_temp]
     dive_location.area = dive_location_hash[:area]
   end

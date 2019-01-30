@@ -63,7 +63,6 @@ class Scraper
                         area: page.css("span.val")[1].text,
                         water_temp: page.css("span.val")[2].text.gsub("\u00B0", ""),
                         visibility: page.css("span.val")[3].text,
-                        depth_range: page.css("span.val")[4].text
                       }
   end
 end

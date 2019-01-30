@@ -92,7 +92,6 @@ class CLI
     puts "Area: #{dive_location.area}"
     puts "Water Temperature: #{dive_location.water_temp}"
     puts "Visibility: #{dive_location.visibility}"
-    puts "Depth Range: #{dive_location.depth_range}" if dive_location.depth_range
     goodbye_or_menu
   end
 
