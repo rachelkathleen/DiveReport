@@ -16,4 +16,8 @@ class Region
   def self.print_names
      self.all.each.with_index(1) {|region, i| puts "#{i}. #{region.name}"}
   end
+
+  def self.countries(region)
+    region.countries = Scraper.region_details(region)
+  end
 end

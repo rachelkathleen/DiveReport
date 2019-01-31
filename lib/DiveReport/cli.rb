@@ -47,19 +47,6 @@ class CLI
     end
   end
 
-  def print_countries
-    Country.print_names
-    puts "\nPlease enter the number of the country you want to see dive locations for."
-    input = gets.strip.to_i
-    if (1..Country.all.length).include?(input)
-     country = Country.all[input - 1]
-    print_object_details(country)
-   else
-     invalid
-     print_countries
-    end
-  end
-
   def dive_location_input(object)
     puts "\nSelect a dive location to see more details"
     puts "\nTo go back to the main menu, enter 'menu'"
@@ -97,7 +84,20 @@ class CLI
       invalid
       print_animal_names
     end
-   end
+  end
+
+  def print_countries
+    Country.print_names
+    puts "\nPlease enter the number of the country you want to see dive locations for."
+    input = gets.strip.to_i
+    if (1..Country.all.length).include?(input)
+     country = Country.all[input - 1]
+    print_object_details(country)
+   else
+     invalid
+     print_countries
+    end
+  end
 
   def print_object_details(object)
     puts "#{object.class.description(object)}"
@@ -122,8 +122,7 @@ class CLI
   end
 
   def print_region_details(region)
-    print_countries_in_region(region)
-    countries = Scraper.region_details(region)
+    countries = print_countries_in_region(region)
     puts "\nPlease select a country to see dive locations"
     puts "\nOr, enter 'back' to return to the list of regions"
       input = gets.strip
@@ -131,7 +130,7 @@ class CLI
         print_regions
       elsif number = input.to_i
         (1..countries.length).include?(number) && Country.find_by_name(countries[number -1]) != nil
-        print_country_details(Country.find_by_name(countries[number -1]))
+        print_object_details(Country.find_by_name(countries[number -1]))
       else
         invalid
         print_region_details(region)
@@ -140,9 +139,8 @@ class CLI
   end
 
   def print_countries_in_region(region)
-    countries = Scraper.region_details(region)
     puts "\nHere are countries in #{region.name}:\n"
-    countries.map.with_index(1) do |country, i|
+    Region.countries(region).each.with_index(1) do |country, i|
       puts "#{i}: #{country}"
   end
 end
