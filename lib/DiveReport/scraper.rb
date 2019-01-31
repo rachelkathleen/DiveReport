@@ -30,8 +30,9 @@ class Scraper
 
   def self.animal_details(animal)
     page = self.get_page(animal)
-    animal.description = page.css(".animale p")[0].text
+    animal_description = page.css(".animale p")[0].text
     self.divelocation_urls(animal)
+    animal_description
   end
 
   def self.region_details(region)
@@ -53,7 +54,7 @@ class Scraper
     end
     object_locations = []
     divelocation_urls.each {|url| object_locations << DiveLocation.find_by_url(url)}
-    object.locations = object_locations
+    object_locations
   end
 
   def self.scrape_dive_location_details(dive_location)

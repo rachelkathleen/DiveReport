@@ -19,4 +19,13 @@ class Animal
   def self.print_names
      self.all.each.with_index(1) {|animal, i| puts "#{i}. #{animal.name}"}
    end
+
+   def self.description(animal)
+     animal.description = Scraper.animal_details(animal)
+   end
+
+  def self.locations(animal)
+    animal.locations = Scraper.divelocation_urls(animal)
+  end
+
 end

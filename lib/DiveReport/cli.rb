@@ -109,10 +109,9 @@ class CLI
    end
 
   def print_animal_details(animal)
-    Scraper.animal_details(animal)
-    puts "#{animal.description}"
+    puts "#{Animal.description(animal)}"
     puts "\nHere are locations where #{animal.name} can be found:\n"
-    animal.locations.each.with_index(1) do |location, i|
+    Animal.locations(animal).each.with_index(1) do |location, i|
       puts "#{i}. #{location.name}"
     end
     dive_location_input(animal)
