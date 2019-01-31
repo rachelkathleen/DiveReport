@@ -42,8 +42,9 @@ class Scraper
   end
 
   def self.country_details(country)
-    country.description = self.get_page(country).css(".tab p")[0].text
+    country_description = self.get_page(country).css(".tab p")[0].text
     self.divelocation_urls(country)
+    country_description
   end
 
   def self.divelocation_urls(object)

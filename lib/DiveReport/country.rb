@@ -17,7 +17,15 @@ class Country
      self.all.each.with_index(1) {|country, i| puts "#{i}. #{country.name}"}
    end
 
-   def self.find_by_name(country_name)
-  self.all.find {|country| country.name == country_name}
-end
+  def self.find_by_name(country_name)
+    self.all.find {|country| country.name == country_name}
+  end
+
+  def self.locations(country)
+    country.locations = Scraper.divelocation_urls(country)
+  end
+
+  def self.description(country)
+    country.description = Scraper.country_details(country)
+  end
 end

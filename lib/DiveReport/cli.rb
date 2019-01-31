@@ -53,20 +53,11 @@ class CLI
     input = gets.strip.to_i
     if (1..Country.all.length).include?(input)
      country = Country.all[input - 1]
-     print_country_details(country)
+    print_object_details(country)
    else
      invalid
      print_countries
     end
-  end
-
-  def print_country_details(country)
-    Scraper.divelocation_urls(country)
-    puts "\nHere are dive locations in #{country.name}\n"
-    country.locations.each.with_index(1) do |location, i|
-      puts "#{i}. #{location.name}"
-    end
-    dive_location_input(country)
   end
 
   def dive_location_input(object)
@@ -101,20 +92,20 @@ class CLI
     input = gets.strip.to_i
     if (1..Animal.all.length).include?(input)
       animal = Animal.all[input - 1]
-      print_animal_details(animal)
+      print_object_details(animal)
     else
       invalid
       print_animal_names
     end
    end
 
-  def print_animal_details(animal)
-    puts "#{Animal.description(animal)}"
-    puts "\nHere are locations where #{animal.name} can be found:\n"
-    Animal.locations(animal).each.with_index(1) do |location, i|
+  def print_object_details(object)
+    puts "#{object.class.description(object)}"
+    puts "\nHere are dive locations in #{object.name}\n"
+    object.class.locations(object).each.with_index(1) do |location, i|
       puts "#{i}. #{location.name}"
     end
-    dive_location_input(animal)
+    dive_location_input(object)
   end
 
   def print_regions
