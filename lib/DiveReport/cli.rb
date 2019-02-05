@@ -78,8 +78,8 @@ class CLI
     puts "\nPlease enter the number of the animal you want to see more about."
     input = gets.strip.to_i
     if (1..Animal.all.length).include?(input)
-      animal = Animal.all[input - 1]
-      print_object_details(animal)
+      @object = Animal.all[input - 1]
+      print_object_details
     else
       invalid
       print_animal_names
@@ -91,23 +91,23 @@ class CLI
     puts "\nPlease enter the number of the country you want to see dive locations for."
     input = gets.strip.to_i
     if (1..Country.all.length).include?(input)
-     country = Country.all[input - 1]
-    print_object_details(country)
+     @object = Country.all[input - 1]
+    print_object_details
    else
      invalid
      print_countries
     end
   end
 
-  def print_object_details(object)
-    puts "#{object.class.description(object)}"
-    puts "\nHere are dive locations in #{object.name}\n"
-    object.class.locations(object).each.with_index(1) do |location, i|
+  def print_object_details
+    puts "#{@object.class.description(@object)}"
+    puts "\nHere are dive locations in #{@object.name}\n"
+    @object.class.locations(@object).each.with_index(1) do |location, i|
       puts "#{i}. #{location.name}"
     end
-    dive_location_input(object)
+    dive_location_input(@object)
   end
-
+ 
   def print_regions
     Region.print_names
     puts "\nPlease enter the number of the region you want to see dive locations for."
