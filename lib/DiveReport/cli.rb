@@ -113,8 +113,8 @@ class CLI
     puts "\nPlease enter the number of the region you want to see dive locations for."
     input = gets.strip.to_i
     if (1..Region.all.length).include?(input)
-      region = Region.all[input - 1]
-      print_region_details(region)
+      @region = Region.all[input - 1]
+      print_region_details
     else
       invalid
       print_regions
