@@ -47,29 +47,29 @@ class CLI
     end
   end
 
-  def dive_location_input(object)
+  def dive_location_input
     puts "\nSelect a dive location to see more details"
     puts "\nTo go back to the main menu, enter 'menu'"
     input = gets.strip
-    if (1..object.locations.length).include?(input.to_i)
-      dive_location_object = object.locations[input.to_i-1]
+    if (1..@object.locations.length).include?(input.to_i)
+      @dive_location = @object.locations[input.to_i-1]
     elsif input == "menu"
       first_input
     else
       invalid
-      dive_location_input(object)
+      dive_location_input
     end
-    print_location_details(dive_location_object)
+    print_location_details
   end
 
-  def print_location_details(dive_location)
-    DiveLocation.add_location_attributes(dive_location)
-    puts "\nHere are details about #{dive_location.name}:"
-    puts "\n#{dive_location.description}"
-    puts "\nCountry: #{dive_location.country}"
-    puts "Area: #{dive_location.area}"
-    puts "Water Temperature: #{dive_location.water_temp}"
-    puts "Visibility: #{dive_location.visibility}"
+  def print_location_details
+    DiveLocation.add_location_attributes(@dive_location)
+    puts "\nHere are details about #{@dive_location.name}:"
+    puts "\n#{@dive_location.description}"
+    puts "\nCountry: #{@dive_location.country}"
+    puts "Area: #{@dive_location.area}"
+    puts "Water Temperature: #{@dive_location.water_temp}"
+    puts "Visibility: #{@dive_location.visibility}"
     goodbye_or_menu
   end
 
@@ -105,9 +105,9 @@ class CLI
     @object.class.locations(@object).each.with_index(1) do |location, i|
       puts "#{i}. #{location.name}"
     end
-    dive_location_input(@object)
+    dive_location_input
   end
- 
+
   def print_regions
     Region.print_names
     puts "\nPlease enter the number of the region you want to see dive locations for."
