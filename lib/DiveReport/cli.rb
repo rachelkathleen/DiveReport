@@ -121,26 +121,27 @@ class CLI
     end
   end
 
-  def print_region_details(region)
-    countries = print_countries_in_region(region)
+  def print_region_details
+    @countries = print_countries_in_region
     puts "\nPlease select a country to see dive locations"
     puts "\nOr, enter 'back' to return to the list of regions"
       input = gets.strip
       if input == "back"
         print_regions
       elsif number = input.to_i
-        (1..countries.length).include?(number) && Country.find_by_name(countries[number -1]) != nil
-        print_object_details(Country.find_by_name(countries[number -1]))
+        (1..@countries.length).include?(number) && Country.find_by_name(@countries[number -1]) != nil
+        @object = Country.find_by_name(@countries[number -1])
+        print_object_details
       else
         invalid
-        print_region_details(region)
+        print_region_details
       end
     end
   end
 
-  def print_countries_in_region(region)
-    puts "\nHere are countries in #{region.name}:\n"
-    Region.countries(region).each.with_index(1) do |country, i|
+  def print_countries_in_region
+    puts "\nHere are countries in #{@region.name}:\n"
+    Region.countries(@region).each.with_index(1) do |country, i|
       puts "#{i}: #{country}"
   end
 end
